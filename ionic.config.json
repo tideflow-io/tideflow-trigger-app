@@ -1,0 +1,7 @@
+{
+  "name": "tideflow-trigger-app",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

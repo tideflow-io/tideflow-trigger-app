@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      JSON request
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form (ngSubmit)="perfomRequest()">
+    <ion-item>
+      <ion-label>Request body. Must be a valid JSON.</ion-label>
+      <IonTextarea placeholder="Enter more information here..."></IonTextarea>
+    </ion-item>
+    <button ion-button type="submit" block>Add Todo</button>
+  </form>
+</ion-content>

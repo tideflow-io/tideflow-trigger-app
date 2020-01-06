@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Setup
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form (ngSubmit)="logForm()">
+    <ion-item>
+      <ion-label>URL</ion-label>
+      <ion-input type="text" (input)="updateUrl($event.target.value)" [(ngModel)]="url" name="url" placeholder="http://tideflow.example.com" autofocus required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Authentication token</ion-label>
+      <ion-input type="text" (input)="updateToken($event.target.value)" [(ngModel)]="token" name="token" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" autofocus required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Workflow</ion-label>
+      <select [(ngModel)]="flow" name="flow" (change)="updateFlow($event.target.value)" >
+        <option selected>Select a flow</option>
+        <option *ngFor="let flow of flows">{{flow.title}}</option>
+      </select>
+    </ion-item>
+  </form>
+</ion-content>
