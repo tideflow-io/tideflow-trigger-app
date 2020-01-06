@@ -14,13 +14,13 @@
     </ion-item>
     <ion-item>
       <ion-label>Authentication token</ion-label>
-      <ion-input type="text" (input)="updateToken($event.target.value)" [(ngModel)]="token" name="token" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" autofocus required></ion-input>
+      <ion-input type="text" (input)="updateToken($event.target.value)" [(ngModel)]="token" name="token" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" required></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>Workflow</ion-label>
       <select [(ngModel)]="flow" name="flow" (change)="updateFlow($event.target.value)" >
         <option selected>Select a flow</option>
-        <option *ngFor="let flow of flows">{{flow.title}}</option>
+        <option *ngFor="let flow of flows" value="{{flow._id}}">{{flow.title}}</option>
       </select>
     </ion-item>
   </form>

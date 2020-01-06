@@ -10,7 +10,9 @@
   <form (ngSubmit)="perfomRequest()">
     <ion-item>
       <ion-label>Request body. Must be a valid JSON.</ion-label>
-      <IonTextarea placeholder="Enter more information here..."></IonTextarea>
+    </ion-item>
+    <ion-item>
+      <ion-textarea name="jsonBody" (input)="updateJsonBody($event.target.value)" [(ngModel)]="jsonBody" placeholder="Enter more information here..."></ion-textarea>
     </ion-item>
     <button ion-button type="submit" block>Add Todo</button>
   </form>
