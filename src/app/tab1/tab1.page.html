@@ -1,5 +1,8 @@
-<ion-header>
+<ion-header >
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab2"></ion-back-button>
+    </ion-buttons>
     <ion-title>
       JSON request
     </ion-title>
@@ -7,12 +10,13 @@
 </ion-header>
 
 <ion-content>
+  <ion-card-content class="item item-text-wrap">
+    <p>Specify below the JSON object to be used as your workflow's trigger.</p>
+  </ion-card-content>
   <form (ngSubmit)="perfomRequest()">
     <ion-item>
-      <ion-label>Request body. Must be a valid JSON.</ion-label>
-    </ion-item>
-    <ion-item>
       <ion-textarea
+        mode="ios"
         rows="8"
         mode="ios"
         autoGrow="true"
@@ -21,6 +25,6 @@
         [(ngModel)]="jsonBody"
         placeholder="Put your workflow's trigger data here..."></ion-textarea>
     </ion-item>
-    <ion-button size="large" expand="full" type="submit">Trigger</ion-button>
+    <ion-button mode="ios" expand="full" type="submit">Trigger</ion-button>
   </form>
 </ion-content>

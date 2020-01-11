@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Storage } from '@ionic/storage';
+import { Router } from '@angular/router';
 
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
@@ -19,8 +20,15 @@ export class Tab2Page {
     private barcodeScanner: BarcodeScanner,
     private storage: Storage,
     private camera: Camera,
-    private file: File
+    private file: File,
+    private router: Router
   ) {}
+
+  async goTo(page) {
+    console.log({page})
+    this.router.navigateByUrl(page);
+    // window.location.href = page
+  }
 
   async barcode() {
     const flow = await this.storage.get('TF_FLOW')

@@ -1,13 +1,73 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Camera options
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="outer-content">
+  <ion-card mode="ios">
+    <ion-card-header>
+      <ion-card-title>JSON request</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      Trigger your workflows by submiting a JSON object.
+    </ion-card-content>
+  
+    <ion-card-content>
+      <ion-chip color="primary" (click)="goTo('/tabs/tab1')">
+        <ion-icon name="create"></ion-icon>
+        <ion-label>Open JSON request</ion-label>
+      </ion-chip>
+    </ion-card-content>
+  </ion-card>
 
-<ion-content>
-  <ion-button size="large" expand="full" (click)="barcode()">.barcode</ion-button>
-  <br>
-  <ion-button size="large" expand="full" (click)="photo()">.photo</ion-button>
+  <ion-card mode="ios">
+    <ion-card-header>
+      <ion-card-title>Barcode Scanner</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      Opens a camera view and automatically scans a barcode, sending the data
+      to your workflow. The application is compatible with QR, UPC A/E, EAN 8/13,
+      CODE 39/93/128, etc.
+    </ion-card-content>
+  
+    <ion-card-content>
+      <ion-chip color="tertiary" (click)="barcode()">
+        <ion-icon name="barcode"></ion-icon>
+        <ion-label>Open Barcode Scanner</ion-label>
+      </ion-chip>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card mode="ios">
+    <ion-card-header>
+      <ion-card-title>Camera Photo</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      Take a picture and use it to trigger your workflow.
+    </ion-card-content>
+  
+    <ion-card-content>
+      <ion-chip color="tertiary" (click)="photo()">
+        <ion-icon name="camera"></ion-icon>
+        <ion-label>Open Camera</ion-label>
+      </ion-chip>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card mode="ios">
+    <ion-card-header>
+      <ion-card-title>Settings</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      Customise the application and authentication settings.
+    </ion-card-content>
+  
+    <ion-card-content>
+      <ion-chip color="warning" outline="true" (click)="goTo('/tabs/tab3')">
+        <ion-icon name="cog"></ion-icon>
+        <ion-label>Open Settings</ion-label>
+      </ion-chip>
+    </ion-card-content>
+  </ion-card>
+
+  
 </ion-content>

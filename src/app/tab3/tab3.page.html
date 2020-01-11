@@ -1,30 +1,38 @@
-<ion-header>
+<ion-header >
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab2"></ion-back-button>
+    </ion-buttons>
     <ion-title>
-      Setup
+      Application settings
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <form (ngSubmit)="logForm()">
+<ion-content mode="ios">
+  <ion-card-content class="item item-text-wrap">
+    <p>
+      Specify below the details of your Tideflow install.
+    </p>
+  </ion-card-content>
+  <form>
     <ion-item>
-      <ion-label>URL</ion-label>
-      <ion-input type="text" (input)="updateUrl($event.target.value)" [(ngModel)]="url" name="url" placeholder="http://tideflow.example.com" autofocus required></ion-input>
+      <ion-label position="floating">Installation URL</ion-label>
+      <ion-input type="text" (input)="updateUrl($event.target.value)" [(ngModel)]="url" name="url" placeholder="http://tideflow.example.com" required></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label>Authentication token</ion-label>
+      <ion-label position="floating">API Authentication Token</ion-label>
       <ion-input type="text" (input)="updateToken($event.target.value)" [(ngModel)]="token" name="token" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" required></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>Workflow</ion-label>
       <select [(ngModel)]="flow" name="flow" (change)="updateFlow($event.target.value)" >
-        <option selected>Select a flow</option>
+        <option disabled>Select a flow</option>
         <option *ngFor="let flow of flows" value="{{flow._id}}">{{flow.title}}</option>
       </select>
     </ion-item>
-    <ion-item>
-      <p> {{flowUrl}}</p >
+    <ion-item *ngIf="flowUrl">
+      <p>{{flowUrl}}</p>
     </ion-item>
   </form>
 </ion-content>
