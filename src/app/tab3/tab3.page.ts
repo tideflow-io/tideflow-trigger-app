@@ -93,7 +93,6 @@ export class Tab3Page {
     }
 
     if (isValidId(value)) {
-      console.log('id', value)
       this.storage.set('TF_FLOW', value || '');
       const selectedFlow = this.flows.find(f => f._id === value)
       

@@ -25,7 +25,6 @@ export class Tab2Page {
   ) {}
 
   async goTo(page) {
-    console.log({page})
     this.router.navigateByUrl(page);
     // window.location.href = page
   }
