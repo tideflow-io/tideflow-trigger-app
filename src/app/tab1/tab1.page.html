@@ -12,8 +12,15 @@
       <ion-label>Request body. Must be a valid JSON.</ion-label>
     </ion-item>
     <ion-item>
-      <ion-textarea name="jsonBody" (input)="updateJsonBody($event.target.value)" [(ngModel)]="jsonBody" placeholder="Enter more information here..."></ion-textarea>
+      <ion-textarea
+        rows="8"
+        mode="ios"
+        autoGrow="true"
+        name="jsonBody"
+        (input)="updateJsonBody($event.target.value)"
+        [(ngModel)]="jsonBody"
+        placeholder="Put your workflow's trigger data here..."></ion-textarea>
     </ion-item>
-    <button ion-button type="submit" block>Add Todo</button>
+    <ion-button size="large" expand="full" type="submit">Trigger</ion-button>
   </form>
 </ion-content>

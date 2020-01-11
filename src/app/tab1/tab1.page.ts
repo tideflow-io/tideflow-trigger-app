@@ -20,8 +20,10 @@ export class Tab1Page {
   }
 
   async readConfig() {
-    let stored =  await this.storage.get('JSON_TRIGGER_BODY') 
-    this.jsonBody = stored || `{}`
+    let stored = await this.storage.get('JSON_TRIGGER_BODY') 
+    this.jsonBody = stored || `{
+  "greeting": "hello"
+}`
   }
 
   async updateJsonBody(value) {
@@ -42,7 +44,7 @@ export class Tab1Page {
       alert('No flow selected')
       return;
     }
-    this.tideflowApi.jsonRequest(flow, body)
+    this.tideflowApi.jsonRequest(body)
   }
 
 }

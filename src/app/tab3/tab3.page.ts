@@ -13,8 +13,8 @@ export class Tab3Page {
   url: string;
   token: string;
   flow: string;
-
   flows: any;
+  flowUrl: string;
 
   constructor(
     private tideflowApi: TideflowService,
@@ -26,25 +26,27 @@ export class Tab3Page {
   async readConfig() {
     this.url = await this.storage.get('TF_URL')
     this.token = await this.storage.get('TF_TOKEN')
+    this.flow = await this.storage.get('TF_FLOW')
+    this.flowUrl = await this.storage.get('TF_FLOW_URL')
     this.canGetflows()
   }
 
-  canGetflows() {
-    if (!this.url || !this.token) {
+  async canGetflows() {
+    const { url, token } = this
+    if (!url || !token) {
       console.error('Not all requirements are meet')
       return;
     }
-    this.tideflowApi.getFlows({triggerType:'endpoint'})
-      .then(flows => {
-        console.log({response: flows})
-        this.flows = flows
-      })
-      .catch(ex => console.error(ex)) 
+
+    try {
+      this.flows = await this.tideflowApi.getFlows({triggerType:'endpoint'})
+    }
+    catch(ex) {
+      console.error(ex)
+    }
   }
 
-  updateUrl (value) {
-    console.log('url', value)
-
+  async updateUrl (value) {
     const isValidURL = (str) => {
       var a  = document.createElement('a');
       a.href = str;
@@ -52,17 +54,20 @@ export class Tab3Page {
     }
 
     if (isValidURL(value)) {
-      console.log('set')
-      this.storage.set('TF_URL', value || '');
+      await this.storage.set('TF_URL', value || '');
+      this.canGetflows()
     }
     else {
-      this.storage.remove('TF_URL')
+      this.flow = ''
+      this.flowUrl = ''
+      this.flows = []
+      await this.storage.remove('TF_URL')
+      await this.storage.remove('TF_FLOW')
+      await this.storage.remove('TF_FLOW_URL')
     }
-
-    this.canGetflows()
   }
 
-  updateToken (value) {
+  async updateToken (value) {
     const isUUID = (uuid) => {
         let s = "" + uuid;
         let r = s.match('^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$');
@@ -70,17 +75,19 @@ export class Tab3Page {
     }
 
     if (isUUID(value)) {
-      console.log('token', value)
-      this.storage.set('TF_TOKEN', value || '');
+      await this.storage.set('TF_TOKEN', value || '');
+      this.canGetflows()
     }
     else {
-      this.storage.remove('TF_TOKEN')
+      this.flow = ''
+      this.flowUrl = ''
+      this.flows = []
+      await this.storage.remove('TF_FLOW')
+      await this.storage.remove('TF_FLOW_URL')
     }
-
-    this.canGetflows()
   }
 
-  updateFlow (value) {
+  async updateFlow (value) {
     const isValidId = (value) => {
       return value && value.length > 6;
     }
@@ -88,6 +95,16 @@ export class Tab3Page {
     if (isValidId(value)) {
       console.log('id', value)
       this.storage.set('TF_FLOW', value || '');
+      const selectedFlow = this.flows.find(f => f._id === value)
+      
+      try {
+        this.flowUrl = `${this.url}/service/endpoint/${selectedFlow.trigger.config.endpoint}`
+        await this.storage.set('TF_FLOW_URL', this.flowUrl)
+      }
+      catch (ex) {
+        this.flowUrl = ''
+        await this.storage.remove('TF_FLOW_URL')
+      }
     }
   }
 

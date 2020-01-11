@@ -12,7 +12,9 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { InjectorService } from './services/injector.service';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { File } from '@ionic-native/File/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,15 +27,12 @@ import { InjectorService } from './services/injector.service';
     HttpClientModule
   ],
   providers: [
-    { 
-      provide: HTTP_INTERCEPTORS, 
-      useClass: InjectorService, 
-      multi: true 
-    },
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    InjectorService
+    BarcodeScanner,
+    Camera,
+    File,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
 })
