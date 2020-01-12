@@ -12,8 +12,12 @@
 <ion-content mode="ios">
   <ion-card-content class="item item-text-wrap">
     <p>
-      Specify below the details of your Tideflow install.
+      Specify below the details of your Tideflow install. You can also scan Tideflow's QR barcode.
     </p>
+    <ion-chip color="tertiary" (click)="barcode()">
+      <ion-icon name="barcode"></ion-icon>
+      <ion-label>Open Barcode Scanner</ion-label>
+    </ion-chip>
   </ion-card-content>
   <form>
     <ion-item>

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Storage } from '@ionic/storage';
 
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+
 import { TideflowService } from '../services/tideflow.service';
 
 @Component({
@@ -18,6 +20,7 @@ export class Tab3Page {
 
   constructor(
     private tideflowApi: TideflowService,
+    private barcodeScanner: BarcodeScanner,
     private storage: Storage
   ) {
     this.readConfig()
@@ -29,6 +32,25 @@ export class Tab3Page {
     this.flow = await this.storage.get('TF_FLOW')
     this.flowUrl = await this.storage.get('TF_FLOW_URL')
     this.canGetflows()
+  }
+
+  async barcode() {
+    this.barcodeScanner.scan().then(barcodeData => {
+      if (!barcodeData || barcodeData.cancelled) return;
+      try {
+        let input = JSON.parse(barcodeData.text)
+        this.url = input.url
+        this.updateUrl(input.url)
+        this.token = input.key
+        this.updateToken(input.key)
+      }
+      catch (ex) {
+
+      }
+    }).catch(err => {
+      console.error(err)
+      alert('An error ocurred')
+    });
   }
 
   async canGetflows() {
@@ -97,7 +119,7 @@ export class Tab3Page {
       const selectedFlow = this.flows.find(f => f._id === value)
       
       try {
-        this.flowUrl = `${this.url}/service/endpoint/${selectedFlow.trigger.config.endpoint}`
+        this.flowUrl = `${this.url}service/endpoint/${selectedFlow.trigger.config.endpoint}`
         await this.storage.set('TF_FLOW_URL', this.flowUrl)
       }
       catch (ex) {

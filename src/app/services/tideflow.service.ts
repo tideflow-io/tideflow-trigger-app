@@ -29,7 +29,7 @@ export class TideflowService {
         })
       };
 
-      const url = await this.genUrl('/api/flows', query)
+      const url = await this.genUrl('api/flows', query)
       return this.http.get(url, httpOptions)
         .subscribe(res => resolve(res), error => reject(error))
     })
