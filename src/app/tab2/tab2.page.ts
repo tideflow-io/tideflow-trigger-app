@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { DocumentScanner, DocumentScannerOptions } from '@ionic-native/document-scanner/ngx';
+
 import { File, FileEntry } from '@ionic-native/File/ngx';
 
 import { TideflowService } from '../services/tideflow.service';
@@ -20,9 +22,34 @@ export class Tab2Page {
     private barcodeScanner: BarcodeScanner,
     private storage: Storage,
     private camera: Camera,
+    private documentScanner: DocumentScanner,
     private file: File,
     private router: Router
   ) {}
+
+  getBlob (b64Data:string, contentType:string, sliceSize:number= 512) {
+    contentType = contentType || '';
+    sliceSize = sliceSize || 512;
+
+    let byteCharacters = atob(b64Data);
+    let byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        let slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        let byteNumbers = new Array(slice.length);
+        for (let i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        let byteArray = new Uint8Array(byteNumbers);
+
+        byteArrays.push(byteArray);
+    }
+
+    let blob = new Blob(byteArrays, {type: contentType});
+    return blob;
+  }
 
   async goTo(page) {
     this.router.navigateByUrl(page);
@@ -34,6 +61,7 @@ export class Tab2Page {
     if (!flow) return alert('No flow selected')
 
     this.barcodeScanner.scan().then(barcodeData => {
+      console.log({barcodeData})
       this.tideflowApi.jsonRequest(barcodeData)
     }).catch(err => {
       console.error(err)
@@ -52,34 +80,27 @@ export class Tab2Page {
       mediaType: this.camera.MediaType.PICTURE
     }
 
-    const getBlob = (b64Data:string, contentType:string, sliceSize:number= 512) => {
-      contentType = contentType || '';
-      sliceSize = sliceSize || 512;
-  
-      let byteCharacters = atob(b64Data);
-      let byteArrays = [];
-  
-      for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-          let slice = byteCharacters.slice(offset, offset + sliceSize);
-  
-          let byteNumbers = new Array(slice.length);
-          for (let i = 0; i < slice.length; i++) {
-              byteNumbers[i] = slice.charCodeAt(i);
-          }
-  
-          let byteArray = new Uint8Array(byteNumbers);
-  
-          byteArrays.push(byteArray);
-      }
-  
-      let blob = new Blob(byteArrays, {type: contentType});
-      return blob;
+    this.camera.getPicture(options)
+      .then(f => this.getBlob(f, 'image/jpeg'))
+      .then(file => {
+        this.tideflowApi.fileRequest({
+          file,
+          name: 'image.jpg',
+          type: 'image/jpeg'
+        })
+      })
   }
 
-    this.camera.getPicture(options)
-      .then(f => {
-        return getBlob(f, 'image/jpeg')
-      })
+  async document() {
+    const flow = await this.storage.get('TF_FLOW')
+    if (!flow) return alert('No flow selected')
+
+    const options: DocumentScannerOptions = {
+      returnBase64: true
+    }
+
+    this.documentScanner.scanDoc(options)
+      .then(f => this.getBlob(f, 'image/jpeg'))
       .then(file => {
         this.tideflowApi.fileRequest({
           file,

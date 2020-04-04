@@ -14,6 +14,7 @@ import { AppComponent } from './app.component';
 
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { DocumentScanner } from '@ionic-native/document-scanner/ngx';
 import { File } from '@ionic-native/File/ngx';
 
 @NgModule({
@@ -31,6 +32,7 @@ import { File } from '@ionic-native/File/ngx';
     SplashScreen,
     BarcodeScanner,
     Camera,
+    DocumentScanner,
     File,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

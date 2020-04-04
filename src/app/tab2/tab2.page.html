@@ -54,6 +54,23 @@
 
   <ion-card mode="ios">
     <ion-card-header>
+      <ion-card-title>Document scan</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      Scan a document and use it to trigger your workflow.
+    </ion-card-content>
+  
+    <ion-card-content>
+      <ion-chip color="tertiary" (click)="document()">
+        <ion-icon name="camera"></ion-icon>
+        <ion-label>Scan a document</ion-label>
+      </ion-chip>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card mode="ios">
+    <ion-card-header>
       <ion-card-title>Settings</ion-card-title>
     </ion-card-header>
   
